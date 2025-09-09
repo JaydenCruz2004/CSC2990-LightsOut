@@ -53,6 +53,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        public int howManyOn(){
+
+            int onCount = 0;
+            for(int i = 0; i < grid.getChildCount(); i++){
+                Button gridButton = (Button) grid.getChildAt(i);
+                // Find the button's row and col
+                int row = i / GRID_SIZE;
+                int col = i % GRID_SIZE;
+
+                if (cellState[row][col] == true) {
+                    onCount++;
+                }
+
+            }
+            return onCount;
+        }
+
         public void recolor() {
             for (int i = 0; i < grid.getChildCount(); i++) {
                 Button gridButton = (Button) grid.getChildAt(i);
