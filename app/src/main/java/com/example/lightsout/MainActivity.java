@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -15,6 +16,12 @@ public class MainActivity extends AppCompatActivity {
     private GridLayout grid;
     private boolean cellState[][];
 
+    private TextView scoreText;
+
+    private Button resetB;
+
+    private Button randoB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         grid = findViewById(R.id.light_grid);
+        scoreText = findViewById(R.id.textViewScore);
+        resetB = findViewById(R.id.buttonReset);
+        randoB = findViewById(R.id.buttonRando);
+        //register the listener to button
+        resetB.setOnClickListener(bottomListener);
+        randoB.setOnClickListener(bottomListener);
+
+
+
 
         randomize();
 
@@ -32,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             currButton.setOnClickListener(buttonListener);
         }
     }
+
 
     View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
@@ -53,24 +70,44 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        public int howManyOn(){
+    View.OnClickListener bottomListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view.getId() == R.id.buttonReset){
+                resetAllOff();
+                recolor();
+            }
+            if (view.getId() == R.id.buttonRando){
+                randomize();
+                recolor();
+            }
+        }
+    };
 
-            int onCount = 0;
-            for(int i = 0; i < grid.getChildCount(); i++){
-                Button gridButton = (Button) grid.getChildAt(i);
-                // Find the button's row and col
-                int row = i / GRID_SIZE;
-                int col = i % GRID_SIZE;
+    public void resetAllOff() {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                cellState[i][j] = false; // turn everything OFF
+            }
+        }
+    }
 
-                if (cellState[row][col] == true) {
+
+
+    public int howManyOn() {
+        int onCount = 0;
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                if (cellState[i][j]) {
                     onCount++;
                 }
-
             }
-            return onCount;
         }
+        return onCount;
+    }
 
-        public void recolor() {
+
+    public void recolor() {
             for (int i = 0; i < grid.getChildCount(); i++) {
                 Button gridButton = (Button) grid.getChildAt(i);
 
@@ -83,8 +120,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     gridButton.setBackgroundColor(getColor(R.color.black));
                 }
+
+                // Update score after recoloring
+                int lightsOn = howManyOn();
+                scoreText.setText("Score: " + lightsOn);
             }
         }
+
 
         public void randomize() {
             Random random = new Random();

@@ -2,4 +2,6 @@
     <string name="app_name">LightsOut</string>
     <string name="lights_jayden">Lights Jayden</string>
     <string name="score_0">Score : 0</string>
+    <string name="reset">RESET</string>
+    <string name="random">Random</string>
 </resources>
