@@ -29,7 +29,7 @@ This app was created as a practice exercise to:
    - Randomizes the ON/OFF state of all lights.
 
 ## Screenshots
-_(Add screenshots of your app here if available)_
+![App Screenshot](app/screenshots/Screenshot_20250915_123312.png)_
 
 ## Requirements
 - Android Studio
